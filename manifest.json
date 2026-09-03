@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "id": "thesamecat.mqtt",
+  "name": "MQTT",
+  "version": "1.0.0",
+  "author": "thesamecat",
+  "license": "MIT",
+  "description": "Live last-10 MQTT messages from a local or remote Mosquitto broker.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "MQTT",
+    "description": "Watch the last ten messages on a Mosquitto broker from the Omarchy bar.",
+    "category": "Network",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "hostMode": "localhost",
+      "host": "",
+      "port": 1883,
+      "topics": []
+    },
+    "schema": [
+      {
+        "key": "hostMode",
+        "type": "enum",
+        "label": "Broker",
+        "options": ["localhost", "custom"],
+        "defaultValue": "localhost"
+      },
+      {
+        "key": "host",
+        "type": "string",
+        "label": "Broker address",
+        "defaultValue": ""
+      },
+      {
+        "key": "port",
+        "type": "integer",
+        "label": "Broker port",
+        "min": 1,
+        "max": 65535,
+        "step": 1,
+        "defaultValue": 1883
+      }
+    ]
+  }
+}
