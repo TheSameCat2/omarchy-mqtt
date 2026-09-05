@@ -9,13 +9,6 @@ the list is empty until traffic arrives and it clears when the shell restarts.
 ## Install
 
 ```sh
-omarchy plugin add git@github.com:TheSameCat2/omarchy-mqtt.git --enable
-```
-
-The repo is private until you publish it. After you make it public, the same
-command works with the HTTPS URL:
-
-```sh
 omarchy plugin add https://github.com/TheSameCat2/omarchy-mqtt.git --enable
 ```
 
@@ -32,9 +25,3 @@ Click the bar icon to open the panel. Escape closes it.
 - **Custom** shows address and port fields. A non-default local port is a custom address (`127.0.0.1` + port)
 - **Filter topics** is collapsed by default. With no filters the widget subscribes to `#`. Add MQTT topics (wildcards allowed) to subscribe to those instead
 - Click a message to copy its payload
-
-## Remove
-
-```sh
-omarchy plugin remove thesamecat.mqtt
-```
