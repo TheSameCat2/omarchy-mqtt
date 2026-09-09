@@ -52,7 +52,6 @@ Panel {
 
   function open() {
     openedFromHotkey = false
-    setCenterHoverRevealSuppressed(false)
     root.controller.show()
   }
 
@@ -65,9 +64,12 @@ Panel {
   }
 
   function close() {
-    setCenterHoverRevealSuppressed(false)
-    cancelEditors()
+    // Hide first. Third-party plugins get a readonly bar facade; writing the
+    // old centerHoverRevealSuppressed property throws and used to abort close
+    // before hide(), leaving the overlay up with exclusive keyboard focus.
     root.controller.hide()
+    setCenterHoverRevealSuppressed(false)
+    cancelEditors(false)
   }
 
   function toggle() {
@@ -86,8 +88,15 @@ Panel {
   }
 
   function setCenterHoverRevealSuppressed(value) {
-    if (root.bar && "centerHoverRevealSuppressed" in root.bar)
-      root.bar.centerHoverRevealSuppressed = value
+    if (!root.bar) return
+    try {
+      if (typeof root.bar.setCenterHoverRevealSuppressed === "function")
+        root.bar.setCenterHoverRevealSuppressed(value)
+      else if ("centerHoverRevealSuppressed" in root.bar)
+        root.bar.centerHoverRevealSuppressed = value
+    } catch (e) {
+      // Never let a bar-API mismatch trap the panel open.
+    }
   }
 
   function persistSettings(values) {
@@ -151,11 +160,12 @@ Panel {
     if (filterIndex >= next.length) filterIndex = Math.max(0, next.length - 1)
   }
 
-  function cancelEditors() {
+  function cancelEditors(refocus) {
     root.editingHost = false
     root.editingTopic = false
     if (hostField) hostField.text = mqtt.customHost
     if (topicField) topicField.text = ""
+    if (refocus === false) return
     Qt.callLater(function() { if (keyCatcher) keyCatcher.forceActiveFocus() })
   }
 

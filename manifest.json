@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "thesamecat.mqtt",
   "name": "MQTT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "thesamecat",
   "license": "MIT",
   "description": "Live last-10 MQTT messages from a local or remote Mosquitto broker.",
